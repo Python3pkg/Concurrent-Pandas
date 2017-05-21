@@ -81,7 +81,7 @@ def get_data(data_get, data_key, output_map, retries_left, argdict):
         Insert resulting dataframe into output map
         """
         if retries_left <= 0:
-            print(data_key + " Failed to download.")
+            print((data_key + " Failed to download."))
             return
 
         """
@@ -99,13 +99,13 @@ def get_data(data_get, data_key, output_map, retries_left, argdict):
                         output_map[data_key] = data_get(data_key, argdict["data_source"], argdict["begin"], argdict["end"])
                         return
                     except:
-                        print(data_key + " failed to download. Retrying up to " + retries_left.__str__() + " more times...")
+                        print((data_key + " failed to download. Retrying up to " + retries_left.__str__() + " more times..."))
                 else:
                     try:
                         output_map[data_key] = data_get(data_key, argdict["data_source"])
                         return
                     except:
-                        print(data_key + " failed to download. Retrying up to " + retries_left.__str__() + " more times...")
+                        print((data_key + " failed to download. Retrying up to " + retries_left.__str__() + " more times..."))
             # Verify we are dealing with options
             if 'get_call_data' in dir(data_get):
                 try:
@@ -115,7 +115,7 @@ def get_data(data_get, data_key, output_map, retries_left, argdict):
                     output_map[data_key] = temp.get_all_data()
                     return
                 except:
-                    print(data_key + " options failed to download. Retrying up to " + retries_left.__str__() + " more times...")
+                    print((data_key + " options failed to download. Retrying up to " + retries_left.__str__() + " more times..."))
                     print("WARNING: If your version of Pandas is not up to date this may fail!")
 
         """
@@ -146,14 +146,14 @@ class ConcurrentPandas:
         """
         Work through the keys to look up sequentially
         """
-        print("\nLooking up " + self.input_queue.qsize().__str__() + " keys from " + self.source_name + "\n")
+        print(("\nLooking up " + self.input_queue.qsize().__str__() + " keys from " + self.source_name + "\n"))
         self.data_worker(**self.worker_args)
 
     def consume_keys_asynchronous_processes(self):
         """
         Work through the keys to look up asynchronously using multiple processes
         """
-        print("\nLooking up " + self.input_queue.qsize().__str__() + " keys from " + self.source_name + "\n")
+        print(("\nLooking up " + self.input_queue.qsize().__str__() + " keys from " + self.source_name + "\n"))
         jobs = multiprocessing.cpu_count()*4 if (multiprocessing.cpu_count()*4 < self.input_queue.qsize()) \
             else self.input_queue.qsize()
 
@@ -168,7 +168,7 @@ class ConcurrentPandas:
         """
         Work through the keys to look up asynchronously using multiple threads
         """
-        print("\nLooking up " + self.input_queue.qsize().__str__() + " keys from " + self.source_name + "\n")
+        print(("\nLooking up " + self.input_queue.qsize().__str__() + " keys from " + self.source_name + "\n"))
         jobs = multiprocessing.cpu_count()*4 if (multiprocessing.cpu_count()*4 < self.input_queue.qsize()) \
             else self.input_queue.qsize()
 
@@ -211,28 +211,28 @@ class ConcurrentPandas:
 
         # Python 3 lacks basestring type, work around below
         try:
-            isinstance(to_unpack, basestring)
+            isinstance(to_unpack, str)
         except NameError:
-            basestring = str
+            str = str
 
         # Base Case
-        if isinstance(to_unpack, basestring):
+        if isinstance(to_unpack, str):
             self.input_queue.put(to_unpack)
             return
 
         for possible_key in to_unpack:
-            if isinstance(possible_key, basestring):
+            if isinstance(possible_key, str):
                 self.input_queue.put(possible_key)
 
             elif sys.version_info >= (3, 0):
-                if isinstance(possible_key, collections.abc.Container) and not isinstance(possible_key, basestring):
+                if isinstance(possible_key, collections.abc.Container) and not isinstance(possible_key, str):
                     self.unpack(possible_key)
                 else:
                     raise Exception("A type that is neither a string or a container was passed to unpack. "
                                     "Aborting!")
 
             else:
-                if isinstance(possible_key, collections.Container) and not isinstance(possible_key, basestring):
+                if isinstance(possible_key, collections.Container) and not isinstance(possible_key, str):
                     self.unpack(possible_key)
                 else:
                     raise Exception("A type that is neither a string or a container was passed to unpack. "

@@ -17,7 +17,7 @@ Time to download 10 stocks from Google with Single Threading : 7.67667818069458 
 Process finished with exit code 0
 
 """
-import concurrentpandas
+from . import concurrentpandas
 import time
 
 
@@ -34,7 +34,7 @@ fast_panda.insert_keys(finance_keys)
 pre = time.time()
 fast_panda.consume_keys_asynchronous_threads()
 post = time.time()
-print("Time to download 10 stocks from Google with Multi-Threading : " + (post - pre).__str__() + " seconds.")
+print(("Time to download 10 stocks from Google with Multi-Threading : " + (post - pre).__str__() + " seconds."))
 
 # Insert your keys
 fast_panda.insert_keys(finance_keys)
@@ -42,7 +42,7 @@ fast_panda.insert_keys(finance_keys)
 pre = time.time()
 fast_panda.consume_keys_asynchronous_processes()
 post = time.time()
-print("Time to download 10 stocks from Google with Multi Processing : " + (post - pre).__str__() + " seconds.")
+print(("Time to download 10 stocks from Google with Multi Processing : " + (post - pre).__str__() + " seconds."))
 
 # Insert your keys
 fast_panda.insert_keys(finance_keys)
@@ -50,4 +50,4 @@ fast_panda.insert_keys(finance_keys)
 pre = time.time()
 fast_panda.consume_keys()
 post = time.time()
-print("Time to download 10 stocks from Google with Single Threading : " + (post - pre).__str__() + " seconds.")
+print(("Time to download 10 stocks from Google with Single Threading : " + (post - pre).__str__() + " seconds."))
